@@ -85,9 +85,18 @@ describe Mongoid::Callbacks do
       Player.new(:frags => 5).weapons.build
     end
 
-    it "runs after document build" do
+    it "runs after document build (references_many)" do
       weapon.name.should == "Holy Hand Grenade (5)"
     end
+
+    let(:powerup) do
+      Player.new(:frags => 5).build_powerup
+    end
+
+    it "runs after document build (references_one)" do
+      powerup.name.should == "Quad Damage (5)"
+    end
+
   end
 
   describe ".before_create" do

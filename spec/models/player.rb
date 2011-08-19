@@ -16,6 +16,7 @@ class Player
   scope :deaths_over, lambda { |count| criteria.where(:deaths.gt => count) }
 
   references_many :weapons
+  references_one :powerup
 
   class << self
     def alive
@@ -35,3 +36,17 @@ class Weapon
     self.name = "Holy Hand Grenade (#{player.frags})"
   end
 end
+
+
+class Powerup
+  include Mongoid::Document
+
+  field :name
+
+  referenced_in :player, :inverse_of => :powerup
+
+  after_build do
+    self.name = "Quad Damage (#{player.frags})"
+  end
+end
+
