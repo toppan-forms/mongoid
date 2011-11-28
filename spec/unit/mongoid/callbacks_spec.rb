@@ -89,12 +89,28 @@ describe Mongoid::Callbacks do
       weapon.name.should == "Holy Hand Grenade (5)"
     end
 
+    let(:implant) do
+      Player.new(:frags => 5).implants.build
+    end
+
+    it "runs after document build (embeds_many)" do
+      implant.name.should == 'Cochlear Implant (5)'
+    end
+      
     let(:powerup) do
       Player.new(:frags => 5).build_powerup
     end
 
     it "runs after document build (references_one)" do
       powerup.name.should == "Quad Damage (5)"
+    end
+
+    let(:augmentation) do
+      Player.new(:frags => 5).build_augmentation
+    end
+
+    it "runs after document build (embeds_one)" do
+      augmentation.name.should == "Infolink (5)"
     end
 
   end

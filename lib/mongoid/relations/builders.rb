@@ -49,7 +49,7 @@ module Mongoid # :nodoc:
           tap do
             define_method("build_#{name}") do |*args|
               attributes = (args.any? ? args : []) + [{:binding => true}]
-              send("#{name}=", *attributes)
+              send("#{name}=", *attributes).tap {|child| child.run_callbacks(:build) }
             end
           end
         end
